@@ -1,0 +1,72 @@
+{% extends "base.html"%}
+{% block title %}My amazing shop{% endblock %}
+{% block header %}
+{% load static %}
+<header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'images/coffe.png' %}" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+            CoffeShop
+        </a>
+        <div class="d-flex ms-auto">
+            <div class="pt-1 me-2">
+                <a href="{% url 'my_orders'%}" style="color:black">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                      </svg>
+                </a>
+            </div>
+            <a href="{% url 'logout' %}" class="btn btn-light">Logout</a>
+        </div>
+    </div>
+</nav>
+</header>
+<style>
+    /* Ensures card images are the same height and properly contained */
+    .card-img-top {
+        object-fit: cover; /* Ensures the image fills the container while maintaining aspect ratio */
+        height: 200px;    /* Set a fixed height for consistency */
+        width: 100%;      /* Ensures the image stretches to fit the card width */
+    }
+</style>
+{% endblock header%}
+{% block messg %}
+
+{% endblock messg %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Coffee Beans Shop</h1>
+    <div class="row g-4">
+        <!-- Card  -->
+         {% for coffee in cofees  %}
+         <div class="col-md-4">
+            <div class="card">
+                {% if coffee.image != '' %}
+                <img src="{{ coffee.image.url }}" class="card-img-top" alt="{{ coffee.name }}">
+                {% else %}
+                <img src="{% static "images/no_image.png" %}%}" class="card-img-top" alt="no image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{coffe.name}}</h5>
+                    <p class="card-text">Price: ${{coffee.price}} / lb</p>
+                    <p class="card-text">Quantity: {{cofee.quantity}} lbs available</p>
+                    {% if coffee.stock %}
+                    <p class="card-text text-success">Available</p>
+                    {% else %}
+                    <p class="card-text text-danger">Limited Stock</p>
+                    {% endif %}
+                    {% with url_path=coffee.id %}
+                    <a href="{% url 'order' url_path %}" class="btn btn-primary">Buy Now</a>
+                    {% endwith %}
+                </div>
+            </div>
+        </div>
+         {% endfor %}
+{% else %}
+<p>login</p>
+{% endif %}
+{% endblock %}

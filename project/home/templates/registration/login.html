@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock title %}
+
+{% block header %}
+{% load static %}
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'images/coffe.png' %}" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                CoffeeShop
+            </a>
+        </div>
+    </nav>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Login</h2>
+
+            <!-- Display messages -->
+            {% if message.tags == 'error' %}
+                <div class="alert alert-danger">{{ message }}</div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form action="auth/" method="post" class="border p-4 rounded bg-light shadow">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>
+            </form>
+
+            {% if error %}
+                <div class="alert alert-danger mt-3">{{ error }}</div>
+            {% endif %}
+
+            <!-- Signup Link -->
+            <div class="text-center mt-4">
+                <p>Don't have an account? <a href="{% url 'signup' %}" class="text-decoration-none">Signup</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

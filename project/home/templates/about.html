@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock title %}
+
+{% block header %}
+{% load static %}
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'images/coffe.png' %}" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                CoffeeShop
+            </a>
+        </div>
+    </nav>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">About Us</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNvZmZlZXxlbnwwfHx8fDE2ODY1Mjc5OTc&ixlib=rb-1.2.1&q=80&w=1600" alt="Coffee Shop" class="img-fluid rounded" style="width:500px;height:300px">
+        </div>
+        <div class="col-md-6">
+            <p class="mt-4">
+                Welcome to CoffeeShop, your go-to destination for the finest coffee and a cozy atmosphere! Our journey began with a passion for coffee and a dream of creating a space where everyone feels at home.
+            </p>
+            <p>
+                We source our beans from the best growers around the globe, ensuring every cup is a celebration of quality and flavor. Our team of skilled baristas crafts each drink with care, whether you’re looking for a bold espresso or a creamy latte.
+            </p>
+            <p>
+                Thank you for being part of our story. We look forward to serving you and making your day brighter, one cup of coffee at a time!
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}My amazing shop{% endblock %}
+
+{% block header %}
+{% load static %}
+<header class="vh-100 bg-dark text-white text-center d-flex flex-column justify-content-center" style="background: url('https://images.unsplash.com/photo-1511920170033-f8396924c348?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDF8fGNvZmZlZXxlbnwwfHx8fDE2ODY1Mjc5OTc&ixlib=rb-1.2.1&q=80&w=1600') no-repeat center center/cover;">
+    <nav class="navbar navbar-dark bg-dark bg-opacity-75 fixed-top">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-start">
+                <a class="navbar-brand" href="/">
+                    <img src="{% static 'images/coffe.png' %}" alt="Logo" width="50" height="50" class="d-inline-block align-text-top">
+                </a>
+                <a class="navbar-brand fw-bold text-warning" href="#">Coffee Shop</a>
+            </div>
+            <ul class="navbar-nav flex-row">
+                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="#about">About Us</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="#contact">Contact</a></li>
+            </ul>
+            <div class="d-flex">
+                <a href="{% url 'shop' %}" class="btn btn-light rounded-pill me-2">Shop</a>
+                <a href="{% url 'login' %}" class="btn btn-warning text-dark rounded-pill" id="login-link">{{ login }}</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to Coffee Bliss</h1>
+        <p class="lead">Your perfect cup of coffee awaits.</p>
+        <a href="#menu" class="btn btn-warning text-dark rounded-pill">Explore Our Menu</a>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+{% endif %}
+    <!-- About Section -->
+    <section id="about" class="py-5 bg-light">
+        <div class="container d-flex align-items-center">
+            <div class="me-4">
+                <img class="img-fluid rounded-3" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDN8fGNvZmZlZSUyMHNob3B8ZW58MHx8fHwxNjg2NTI4MDQ4&ixlib=rb-1.2.1&q=80&w=800" alt="Coffee Shop Interior">
+            </div>
+            <div>
+                <h2 class="fw-bold">About Us</h2>
+                <p>At Coffee Bliss, we believe in crafting the perfect cup of coffee for every customer. From ethically sourced beans to expertly brewed drinks, we are here to make your day a little brighter.</p>
+                <a href="#contact" class="btn btn-warning text-dark rounded-pill">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 text-center">
+        <div class="container">
+            <p class="mb-1">&copy; 2024 Coffee Bliss. All rights reserved.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#" class="text-warning text-decoration-none">Instagram</a></li>
+                <li class="list-inline-item"><a href="#" class="text-warning text-decoration-none">Facebook</a></li>
+                <li class="list-inline-item"><a href="#" class="text-warning text-decoration-none">Twitter</a></li>
+            </ul>
+        </div>
+    </footer>
+{% endblock content %}
+
+{% block script %}
+    // Get the value of the login variable
+    const loginText = "{{ login }}";
+
+    // Check if the login text is "None" (when the user is not logged in)
+    if (loginText === "None" || loginText.trim() === "") {
+        // Change the login text to "Logout" and the link to 'logout' URL
+        const loginLink = document.getElementById("login-link");
+        loginLink.textContent = "Logout";  // Change the link text
+        loginLink.href = "{% url 'logout' %}";  // Update the URL to the logout page
+    }
+{% endblock script %}
