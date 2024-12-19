@@ -23,7 +23,7 @@
         </div>
     </nav>
     <div class="container">
-        <h1 class="display-4 fw-bold">Welcome to Coffee Bliss</h1>
+        <h1 class="display-4 fw-bold">Welcome to Coffee Shop</h1>
         <p class="lead">Your perfect cup of coffee awaits.</p>
         <a href="#menu" class="btn btn-warning text-dark rounded-pill">Explore Our Menu</a>
     </div>
@@ -44,7 +44,7 @@
             </div>
             <div>
                 <h2 class="fw-bold">About Us</h2>
-                <p>At Coffee Bliss, we believe in crafting the perfect cup of coffee for every customer. From ethically sourced beans to expertly brewed drinks, we are here to make your day a little brighter.</p>
+                <p>At Coffee Shop, we believe in crafting the perfect cup of coffee for every customer. From ethically sourced beans to expertly brewed drinks, we are here to make your day a little brighter.</p>
                 <a href="#contact" class="btn btn-warning text-dark rounded-pill">Learn More</a>
             </div>
         </div>
@@ -53,7 +53,7 @@
     <!-- Footer -->
     <footer class="bg-dark text-white py-4 text-center">
         <div class="container">
-            <p class="mb-1">&copy; 2024 Coffee Bliss. All rights reserved.</p>
+            <p class="mb-1">&copy; 2024 Coffee Shop. All rights reserved.</p>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="#" class="text-warning text-decoration-none">Instagram</a></li>
                 <li class="list-inline-item"><a href="#" class="text-warning text-decoration-none">Facebook</a></li>
@@ -68,10 +68,9 @@
     const loginText = "{{ login }}";
 
     // Check if the login text is "None" (when the user is not logged in)
-    if (loginText === "None" || loginText.trim() === "") {
+    if (loginText === "Logout" || loginText.trim() === "") {
         // Change the login text to "Logout" and the link to 'logout' URL
         const loginLink = document.getElementById("login-link");
-        loginLink.textContent = "Logout";  // Change the link text
         loginLink.href = "{% url 'logout' %}";  // Update the URL to the logout page
     }
 {% endblock script %}
