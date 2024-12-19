@@ -1,4 +1,4 @@
-from .models import Coffee
+from .models import Coffee , Orders
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     context = {'login':'login'}
     if request.user.is_authenticated:
-        context['login'] = None
+        context['login'] = 'Logout'
     return render(request,'home/home_index.html',context)
 
 # shop url
@@ -34,9 +34,11 @@ def order(request,id):
 # checkout url
 @login_required(login_url="/accounts/login/")
 def checkout(request):
-    return HttpResponse("<h2> Checkout Endpoint </h2>")
-    pass
+    
+    context = {
 
+    }
+    return render(request, 'checkout/checkout.html', context)
 # signup url
 def signup(request):
     return render(request,'registration/register.html',{})
@@ -84,7 +86,10 @@ def ulogout(request):
 # my_orders url
 @login_required()
 def my_orders(request):
-    return render(request,'my_orders/my_orders.html',{})
+    context = {
+        'orders': Orders.objects.all()
+    }
+    return render(request,'my_orders/my_orders.html',context)
 
 def about(request):
     return render(request,'about.html',{})
