@@ -29,7 +29,7 @@
             <h2>{{coffe.name}}</h2>
             <p class="text-muted">Category: Latte</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <h4 class="text-danger">${{coffee.price}}</h4>
+            <p class="d-inline fs-2" id="price">$ {{ coffee.price }} / lb </p>
             
             <!-- Quantity Counter -->
             <div class="d-flex align-items-center my-4">
@@ -39,7 +39,7 @@
             </div>
             
             <!-- Checkout Button -->
-            <a href="{% url 'checkout' %}"><button class="btn btn-primary w-100">Checkout</button></a>
+            <a href="{% url 'checkout' %}"><button class="btn btn-primary w-100" id="checkout">Checkout</button></a>
         </div>
     </div>
 </div>
@@ -48,17 +48,27 @@
 const decreaseButton = document.getElementById('decrease');
 const increaseButton = document.getElementById('increase');
 const quantityInput = document.getElementById('quantity');
+const price = document.getElementById('price');
+const store = document.getElementById('checkout')
+
 
 decreaseButton.addEventListener('click', () => {
     let currentQuantity = parseInt(quantityInput.value, 10) || 1;
     if (currentQuantity > 1) {
         quantityInput.value = currentQuantity - 1;
+        price.textContent = ` $ ${quantityInput.value * {{ coffee.price }}} / lb`
+        console.log(price.value)
     }
 });
 
 increaseButton.addEventListener('click', () => {
     let currentQuantity = parseInt(quantityInput.value, 10) || 1;
     quantityInput.value = currentQuantity + 1;
+    price.textContent = `$ ${quantityInput.value * {{ coffee.price }}} / lb`
 });
+
+store.addEventListener('click',()=>{
+    localStorage.setItem('price', price.textContent);
+})
 
 {% endblock script %}
