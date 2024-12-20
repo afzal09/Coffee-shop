@@ -109,7 +109,7 @@ const placeOrder = document.getElementById('placeholder')
 document.addEventListener("DOMContentLoaded", () => {
     const storedValue = localStorage.getItem('price');
     if (storedValue) {
-      price.textContent = `${storedValue}`;
+      price.textContent = `${storedValue.split(' ').splice(0,2).join('')}`;
     } else {
         null
     }
