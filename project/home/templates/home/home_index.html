@@ -13,8 +13,8 @@
                 <a class="navbar-brand fw-bold text-warning" href="#">Coffee Shop</a>
             </div>
             <ul class="navbar-nav flex-row">
-                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="#about">About Us</a></li>
-                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="#contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="{% url "about" %}">About Us</a></li>
+                <li class="nav-item"><a class="nav-link text-white fw-bold mx-2" href="{% url "contact" %}">Contact</a></li>
             </ul>
             <div class="d-flex">
                 <a href="{% url 'shop' %}" class="btn btn-light rounded-pill me-2">Shop</a>
@@ -45,7 +45,7 @@
             <div>
                 <h2 class="fw-bold">About Us</h2>
                 <p>At Coffee Shop, we believe in crafting the perfect cup of coffee for every customer. From ethically sourced beans to expertly brewed drinks, we are here to make your day a little brighter.</p>
-                <a href="#contact" class="btn btn-warning text-dark rounded-pill">Learn More</a>
+                <a href="{% url "about" %}" class="btn btn-warning text-dark rounded-pill">Learn More</a>
             </div>
         </div>
     </section>
