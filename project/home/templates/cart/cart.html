@@ -3,6 +3,8 @@
 
 {% block header %}
 {% load static %}
+{% load cart_tag %}
+{% load mathfilters %}
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -13,7 +15,7 @@
             </a>
             <div class="d-flex ms-auto">
                 <div class="pt-1 me-2">
-                    <a href="{% url 'my_orders'%}" style="color:black">
+                    {% comment "" %}<a href="{% url 'my_orders'%}" style="color:black">{% endcomment %}
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                           </svg>
@@ -28,10 +30,9 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h2 class="text-center mb-4">My Orders</h2>
+    <h2 class="text-center mb-4">My Cart</h2>
 
     <div id="order-container">
-        {% for order in orders %}{% endfor %}
         <div class="accordion" id="ordersAccordion">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="orderHeading1">
@@ -49,31 +50,61 @@
                                     <th>Price</th>
                                 </tr>
                             </thead>
+                            {% for key,value in request.session.cart.items %}
                             <tbody>
                                 <tr>
-                                    <td>Espresso</td>
-                                    <td>2</td>
-                                    <td>$3.50</td>
-                                </tr>
-                                <tr>
-                                    <td>Cappuccino</td>
-                                    <td>1</td>
-                                    <td>$4.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Latte</td>
-                                    <td>3</td>
-                                    <td>$4.50</td>
+                                    <td>{{value.name}}</td>
+                                    <td>{{value.quantity}}</td>
+                                    <td>{{value.price|mul:value.quantity}}</td>
                                 </tr>
                             </tbody>
+                            {% endfor %}
                         </table>
                         <div class="text-end">
-                            <strong>Total: $24.50</strong>
+                            <strong>Total:{{request.session.cart|length}} item
+                            </strong>
+                            <a href="{% url 'cart_clear' %}"><button class="btn btn-light w-100" id="checkout">Clear Cart</button></a>
+                            <form action={% url "checkout" %} method='post'>
+                                {% csrf_token %}
+                                <input type="hidden" name="price" value=""></input>
+                                <button type="submit" class="btn btn-primary w-100" id="checkout">Checkout</button></a>
+                            </form>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<form method="POST">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+    var options = {
+        key: "{{razorpay_key}}",
+        amount: "{{order.amount}}", 
+        currency: "INR",
+        name: "{{order.name}}",
+        description: "Test Transaction",
+        image: "https://imgur.com/NOWiBu9",
+        order_id: "{{order.provider_order_id}}",
+        callback_url: "{{callback_url}}",
+        redirect: true,
+        prefill: {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        notes: {
+            "address": "Razorpay Corporate Office"
+        },
+        theme: {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    </script>
+    <input type="hidden" custom="Hidden Element" name="hidden">
+</form>
 {% endblock content %}

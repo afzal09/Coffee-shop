@@ -12,8 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
-
+from dotenv import dotenv_values
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #  C:/Users/Admin/Desktop/project/project
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'cart',
+    'mathfilters'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.request",
+                "cart.context_processor.cart_total_amount"
             ],
         },
     },
@@ -135,4 +138,9 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 ### SESSION COOKIES ###
-#SESSION_COOKIE_SECURE = False
+CART_SESSION_ID = 'cart'
+
+### Payment Api ###
+secrets = dotenv_values(BASE_DIR / ".env")
+RAZORPAY_KEY_ID = secrets.get('KEY_ID')
+RAZORPAY_KEY_SECRET = secrets.get('KEY_SECRET')
