@@ -33,9 +33,9 @@
             
             <!-- Quantity Counter -->
             <div class="d-flex align-items-center my-4">
-                <button class="btn btn-outline-secondary" id="decrease">-</button>
-                <input type="text" class="form-control mx-2 text-center" id="quantity" value="1" style="width: 60px;">
-                <button class="btn btn-outline-secondary" id="increase">+</button>
+                <button class="btn btn-outline-secondary" id="decrease"><a class="link-secondary link-offset-2 link-underline link-underline-opacity-0" href={% url "item_decrement" coffee.id %}>-</a></button>
+                <input type="text" class="form-control mx-2 text-center" id="quantity" value="0" style="width: 60px;">
+                <button class="btn btn-outline-secondary" id="increase"><a class="link-secondary link-offset-2 link-underline link-underline-opacity-0" href={% url "item_increment" coffee.id %}>+</a></button>
             </div>
             
             <!-- Checkout Button -->
@@ -54,7 +54,7 @@ const store = document.getElementById('checkout')
 
 
 decreaseButton.addEventListener('click', () => {
-    let currentQuantity = parseInt(quantityInput.value, 10) || 1;
+    let currentQuantity = parseInt(quantityInput.value, 10);
     if (currentQuantity > 1) {
         quantityInput.value = currentQuantity - 1;
         price.textContent = ` $ ${quantityInput.value * {{ coffee.price }}} `
@@ -63,7 +63,7 @@ decreaseButton.addEventListener('click', () => {
 });
 
 increaseButton.addEventListener('click', () => {
-    let currentQuantity = parseInt(quantityInput.value, 10) || 1;
+    let currentQuantity = parseInt(quantityInput.value, 10);
     quantityInput.value = currentQuantity + 1;
     price.textContent = `$ ${quantityInput.value * {{ coffee.price }}} `
 });
