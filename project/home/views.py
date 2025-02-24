@@ -4,10 +4,12 @@ from .models import Coffee, Orders, Payments
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from cart.cart import Cart
 from project.settings import RAZORPAY_KEY_ID,RAZORPAY_KEY_SECRET
 import razorpay
@@ -103,7 +105,6 @@ def checkout_callback(request):
 # signup url
 def signup(request):
     return render(request,'registration/register.html',{})
-    pass
 
 
 # Auth Endpoint
@@ -123,7 +124,15 @@ def auth(request):
                 messages.success(request, "You have successfully logged in!")
                 return redirect('/shop')
             else:
-                return render(request,'404.html',{'response':'An error occurred while login please check your credentials.',
+                username = request.POST.get("username")
+                password = request.POST.get("password")
+                try:
+                    db_entry = User.objects.get(username=username)
+                except ObjectDoesNotExist:
+                    return render(request,'404.html',{'response':'An error occurred while login user does not exist.',
+                                                  'tab':'credentials error'})
+                if password != make_password(db_entry.password):
+                    return render(request,'404.html',{'response':'An error occurred while login invalid password.',
                                                   'tab':'credentials error'})
     elif request.method == 'GET':
         return render(request,'404.html',{'response':'404 Not found',
