@@ -8,6 +8,7 @@ class Coffee(models.Model):
     name = models.CharField(max_length=30)
     price = models.FloatField()
     quantity = models.IntegerField()
+    description = models.TextField(null=True)
     stock = models.BooleanField(default=True)
     image = models.ImageField(upload_to='products/',null=True)
     
